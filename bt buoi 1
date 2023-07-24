@@ -1,0 +1,33 @@
+#include <iostream>
+using namespace std;
+class phanso
+{
+	private:
+		int tuso;
+		int mauso;
+	public:
+		void nhap()
+		{
+			cout<<"nhap tu so: ";
+			cin>>tuso;
+			cout<<"nhap mau so: ";
+			cin>>mauso;
+			while(mauso==0)
+			{
+				cout<<"-> k hop le, hay nhap lai: ";
+				cin>>mauso;
+			}
+		}
+		void xuat()
+		{
+			cout<<tuso<<"/"<<mauso<<endl;
+		}
+};
+
+int main()
+{
+	phanso a;
+	a.nhap();
+	a.xuat();
+	return 0;
+} 

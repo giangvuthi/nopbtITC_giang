@@ -1,0 +1,100 @@
+#include <iostream>
+#include <cstring>
+#include <iomanip>
+using namespace std;
+class GV
+{
+	private:
+		char ht[30];
+		int t;
+		char bc[15],chuyenNganh[20];
+		float bl;
+	public:
+		GV()
+		{
+			strcpy(ht," ");
+			t=0;
+			strcpy(bc," ");
+			strcpy(chuyenNganh," ");
+			bl=0;
+		}
+		void nhap()
+		{
+			
+			cout<<"nhap ht: ";
+			fflush(stdin);
+			cin.getline(ht,30);
+			cout<<"nhap tuoi: ";
+			cin>>this->t;
+			cout<<"nhap bang cap: ";
+			cin>>bc;
+			cout<<"nhap chuyen nganh: ";
+			cin>>chuyenNganh;
+			cout<<"nhap bl: ";
+			cin>>this->bl;
+		}
+		void xuat()
+		{
+			cout<<setw(30)<<ht
+				<<setw(15)<<t
+				<<setw(15)<<bc
+				<<setw(20)<<this->chuyenNganh
+				<<setw(15)<<this->bl
+				<<setw(15)<<this->Tinhlcb()<<endl;
+		}
+		float Tinhlcb()
+		{
+			return this->bl*610;
+		}
+		~GV()
+		{
+		}
+};
+void tieude()
+{
+	cout<<setw(30)<<"ho va ten: "
+		<<setw(15)<<"tuoi: "
+		<<setw(15)<<"bang cap: "
+		<<setw(20)<<"chuyen nganh: "
+		<<setw(15)<<"bac luong: "
+		<<setw(15)<<"luong cb: "<<endl;
+}
+void nhapdanhsach(GV a[],int &n)
+{
+	cout<<"nhap danh sach "<<n<<"GV\n";
+	for(int i=0;i<n;i++)
+	{
+		cout<<"--- nhap thong tin cua ng thu: "<<i+1<<endl;
+		a[i].nhap();
+	}
+}
+void xuatdanhsach(GV a[],int &n)
+{
+	cout<<"nhap danh sach "<<n<<"GV\n";
+	for(int i=0;i<n;i++)
+	{
+		cout<<"--- xuat thong tin cua ng thu: "<<i+1<<endl;
+		a[i].xuat();
+	}
+}
+void GVtl(GV a[],int &n)
+{
+	cout<<"\nDanh sach cac GV co tien luong < 2000 la: "<<endl;
+	tieude();
+	for(int i=0;i<n;i++)
+	{
+		if(a[i].Tinhlcb() < 2000)
+		a[i].xuat();
+	}
+}
+int main()
+{
+	int n;
+	cout<<"nhap n= ";
+	cin>>n;
+	GV a[n];
+	nhapdanhsach(a,n);
+	xuatdanhsach(a,n);
+	GVtl(a,n);
+	return 0;	
+}

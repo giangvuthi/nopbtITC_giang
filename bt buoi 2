@@ -46,6 +46,17 @@ class GV
 		{
 			return this->bl*610;
 		}
+		void sapxep_cn(GV a[],int &n)
+		{
+			for(int i=0;i<n;i++)
+			{
+				for(int j=i+1;j<n;j++)
+				{
+					if(strcmp(a[i].chuyenNganh,a[j].chuyenNganh)==1)
+						swap(a[i],a[j]);
+				}
+			}
+		}
 		~GV()
 		{
 		}
@@ -96,5 +107,8 @@ int main()
 	nhapdanhsach(a,n);
 	xuatdanhsach(a,n);
 	GVtl(a,n);
+	cout<<"\t\nGV sau khi sx theo chuyeen nganh: ";
+	a[n].sapxep_cn(a,n);
+	xuatdanhsach(a,n);
 	return 0;	
 }

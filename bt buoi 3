@@ -1,0 +1,122 @@
+#include <iostream>
+#include <cstring>
+
+using namespace std;
+
+class Nguoi
+{
+	private:
+		char ht[30];
+		int t;
+		float dtb;
+	public:
+		Nguoi()
+		{
+			strcpy(ht," ");
+			t=0;
+			dtb=0.0;
+		}
+		Nguoi(char* ht,int t,float dtb,char* dh)
+		{
+			strcpy(this->ht,ht);
+			this->t=t;
+			this->dtb=dtb;
+
+		}
+		void nhap()
+		{
+			cout<<"nhap ho ten: ";
+			fflush(stdin);
+			cin.getline(ht,30);
+			cout<<"nhap tuoi: ";
+			cin>>t;
+			cout<<"nhap diem TB: ";
+			cin>>dtb;
+
+		}
+		void xuat()
+		{
+			cout<<"ho ten: "<<ht
+				<<"tuoi: "<<t
+				<<"diem TB: "<<dtb
+				<<"danh hieu: "<<set_dh()<<endl;
+		}
+		char* set_dh()
+		{
+			if(dtb >= 8)
+				return "Gioi";
+			else if(dtb >= 7)
+				return "Kha";
+			else if(dtb >= 5)
+				return "TB";
+			else
+				return "Kem";
+		}
+		char* get_ht()
+		{
+			return this->ht;
+		}
+		void set_dtb(float dtb)
+		{
+			this->dtb=dtb;
+		}
+
+};
+void sort(Nguoi a[],int &n)
+{
+	for(int i=0;i<n;i++)
+	{
+		for(int j=i+1;j<n;j++)
+		{
+			if(strcmpi(a[i].get_ht(),a[j].get_ht())==1)
+				swap(a[i],a[j]);
+		}
+	}
+	cout<<"\t-------- Da sap xep thanh cong\n";
+}
+
+void found(Nguoi a[],int n)
+{
+	cout<<"tim kiem Nguyen Van A trong danh sach\n";
+	bool check=false;
+	for(int i=0;i<n;i++)
+	{
+		if(strcmpi(a[i].get_ht(),"Nguyen Van A")==0)
+		{
+			a[i].set_dtb(10);
+			a[i].xuat();
+			check=true;
+		}
+	}
+	cout<<(check == false ? "k co nguoi ban can tim \n" : "");
+}
+void nhapDS(Nguoi a[],int &n)
+{
+	cout<<"nhap danh sach "<<n<<" nguoi\n";
+	for(int i=0;i<n;i++)
+	{
+		cout<<"--- nhap thong tin cua ng thu: "<<i+1<<endl;
+		a[i].nhap();
+	}
+}
+void xuatDS(Nguoi a[],int &n)
+{
+	cout<<"xuat danh sach "<<n<<" nguoi\n";
+	for(int i=0;i<n;i++)
+	{
+		cout<<"--- nhap thong tin cua ng thu: "<<i+1<<endl;
+		a[i].xuat();
+	}
+}
+int main()
+{
+	int n;
+	cin>>n;
+	Nguoi a[n];
+	nhapDS(a,n);
+	xuatDS(a,n);
+	sort(a,n);
+	xuatDS(a,n);
+	found(a,n);
+	return 0;
+}

@@ -1,0 +1,111 @@
+#include <iostream>
+#include <cstring>
+using namespace std;
+
+class GV
+{
+	private:
+		char ht[30];
+		int t;
+		char bc[15],chuyenNganh[20];
+		float bl;
+	public:
+		GV()
+		{
+			strcpy(ht," ");
+			t=0;
+			strcpy(bc," ");
+			strcpy(chuyenNganh," ");
+			bl=0.0;
+		}
+		~GV()
+		{
+		}
+		friend istream& operator >> (istream& in,GV &a)
+		{
+			cout<<"nhap ht: ";
+			fflush(stdin);
+			in.getline(a.ht,30);
+			
+			cout<<"nhap tuoi: ";
+			in>>a.t;
+			
+			cout<<"nhap bang cap: ";
+			fflush(stdin);
+			in.getline(a.bc,15);
+			
+			cout<<"nhap chuyen nganh: ";
+			in.getline(a.chuyenNganh,20);
+			
+			cout<<"nhap bac luong: ";
+			in>>a.bl;
+			return in;
+		}
+		friend ostream& operator << (ostream& out,GV a)
+		{
+			out<<" Ho ten "<<a.ht<<endl
+				<<" Tuoi "<<a.t<<endl
+				<<" Bang cap "<<a.bc<<endl
+				<<" Chuyen nganh "<<a.chuyenNganh<<endl
+				<<" Bac luong "<<a.bl<<endl
+				<<" Luong cb "<<a.lcb()<<endl;
+			return out;
+		}
+		float lcb()
+		{
+			return this->bl*610;
+		}
+		bool operator == (GV a)
+		{
+			return strcmpi(this->bc,a.bc) == 0;
+		}
+		char* get_bc()
+		{
+			return this->bc;
+		} 
+		
+};
+
+void nhapDS(GV a[],int &n)
+{
+	for(int i=0;i<n;i++)
+	{
+		cout<<"\nnhap thong tin GV thu: "<<i+1<<endl;
+		cin>>a[i];
+	}
+}
+
+void xuatDS(GV a[],int &n)
+{
+	for(int i=0;i<n;i++)
+	{
+		cout<<"\nxuat thong tin GV thu: "<<i+1<<endl;
+		cout<<a[i];
+	}
+}
+
+void sort_bc(GV a[],int &n)
+		{
+			cout<<"\t\n Danh sach GV sap xep theo bang cap ---";
+			for(int i=0;i<n;i++)
+			{
+				for(int j=i+1;j<n;j++)
+				{
+					if (strcmp(a[i].get_bc(),a[j].get_bc())==1)
+						swap(a[i],a[j]);
+				}
+			}
+		}
+	
+int main()
+{
+	int n;
+	cout<<"Nhap sl GV: ";
+	cin>>n;
+	GV a[n];
+	nhapDS(a,n);
+	xuatDS(a,n);
+	sort_bc(a,n);
+	xuatDS(a,n);
+	return 0;
+}

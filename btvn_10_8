@@ -28,7 +28,7 @@ class Ng
 			return out;
 		}
 };
-class Thisinh : Ng
+class Thisinh : public Ng
 {
 	private:
 		int sbd;

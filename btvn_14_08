@@ -1,0 +1,152 @@
+#include <iostream>
+using namespace std;
+
+class BN
+{
+	protected:
+		char ma[10], ht[20];
+		int n_sinh;
+		char chuandoan[10];
+	public:
+		virtual void nhap()
+		{
+			cout<<"nhap ma ho so: ";
+			fflush(stdin);
+			cin.getline(ma,10);
+			
+			cout<<"nhap ho ten: ";
+			cin.getline(ht,20);
+			
+			cout<<"nhap ngay sinh: ";
+			cin>>n_sinh;
+			
+			cout<<"nhap chuan doan benh: ";
+			fflush(stdin);
+			cin.getline(chuandoan,10);
+		}
+		virtual void xuat()
+		{
+			cout<<"Ma hs: "<<ma<<endl
+				<<"Ho ten: "<<ht<<endl
+				<<"Ngay sinh: "<<n_sinh<<endl
+				<<"Chuan doan benh: "<<chuandoan<<endl;
+		}
+
+};
+
+
+
+class Noitru : public BN
+{
+	private:
+		int n_nhapvien, n_ravien;
+		char tenkhoa[10];
+		int sogiuong;
+	public:
+		void nhap()
+		{
+			BN::nhap();
+			cout<<"nhap ngay nhap vien: ";
+			cin>>n_nhapvien;
+			
+			cout<<"nhap ngay ra vien: ";
+			cin>>n_ravien;
+			
+			cout<<"nhap ten khoa: ";
+			fflush(stdin);
+			cin.getline(tenkhoa,10);
+			
+			cout<<"nhap so giuong: ";
+			cin>>sogiuong;
+		}
+		void xuat()
+		{
+			BN::xuat();
+			cout<<"Ngay nhap vien: "<<n_nhapvien<<endl
+				<<"Ngay ra vien: "<<n_ravien<<endl
+				<<"Ten khoa: "<<tenkhoa<<endl
+				<<"So giuong: "<<sogiuong<<endl;
+		}
+		
+		int get_sinh()
+		{
+			return this->n_sinh;
+		}
+		void set_sinh()
+		{
+			int x,d;
+			cout<<"nhap ngay sinh x = ";
+			cin>>x;
+			if(get_sinh() > x)
+				d++;
+			cout<<"\tSo ho so dat yc la: "<<d<<endl;
+		}
+		
+};
+
+class Ngoaitru : public BN
+{
+	private:
+		int n_chuyen;
+		char noichuyen[10];
+	public:	
+		void nhap()
+		{
+			BN::nhap();
+			cout<<"nhap ngay chuyen: ";
+			cin>>n_chuyen;
+			
+			cout<<"nhap noi chuyen: ";
+			fflush(stdin);
+			cin.getline(noichuyen,10);
+		}
+		void xuat()
+		{
+			BN::xuat();
+			cout<<"Ngay chuyen: "<<n_chuyen<<endl
+				<<"Noi chuyen: "<<noichuyen<<endl;
+		}
+		
+		int get_sinh()
+		{
+			return this->n_sinh;
+		}
+		void set_sinh()
+		{
+			int x,d;
+			cout<<"nhap ngay sinh x = ";
+			cin>>x;
+			if(get_sinh() > x)
+				d++;
+			cout<<"\tSo ho so dat yc la: "<<d<<endl;
+		}
+};
+
+int main()
+{
+	Noitru no;
+	Ngoaitru ng;
+	
+	BN *b[2];
+	b[0] = &no;
+	b[1] = &ng;
+	
+	int n=2;
+	for(int i=0;i<n;i++)
+	{
+		cout<<"\tnhap thong tin cua benh nhan thu "<<i+1<<endl;
+		b[i]->nhap();
+	}
+	
+	for(int i=0;i<n;i++)
+	{
+		cout<<"\txuat thong tin cua benh nhan thu "<<i+1<<endl;
+		b[i]->xuat();
+	}
+	cout<<"Ngay sinh BN noi tru: "<<no.get_sinh()<<endl;
+	no.set_sinh();
+	cout<<"Ngay sinh BN ngoai tru: "<<ng.get_sinh()<<endl;
+	ng.set_sinh();
+	
+	return 0;
+}

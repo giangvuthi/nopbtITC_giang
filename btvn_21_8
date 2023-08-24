@@ -1,0 +1,210 @@
+
+#include <iostream>
+#include <cstring>
+using namespace std;
+
+class doc_gia
+{
+	protected:
+		char ma[10];
+		char ten_sach[20], tg[20], ten_nt[20];
+		int tuoi,ngay_thue,ngay_tra;
+		
+	public:
+		virtual void nhap()
+		{
+			cout<<"nhap ma sach: ";
+			fflush(stdin);
+			cin.getline(ma,10);
+			
+			cout<<"nhap ten sach: ";
+			cin.getline(ten_sach,20);
+			
+			cout<<"nhap tac gia: ";
+			cin.getline(tg,20);
+			
+			cout<<"nhap ten ng thue: ";
+			cin.getline(ten_nt,20);
+			
+			cout<<"nhap tuoi: ";
+			cin>>tuoi;
+			
+			cout<<"nhap ngay thue: ";
+			cin>>ngay_thue;
+			
+			cout<<"nhap ngay tra: ";
+			cin>>ngay_tra;
+			
+			
+		}
+		virtual void xuat()
+		{
+			cout<<"Ma sach: "<<ma<<endl
+				<<"Ten sach: "<<ten_sach<<endl
+				<<"Tac gia: "<<tg<<endl
+				<<"Ten ng thue: "<<ten_nt<<endl
+				<<"Tuoi: "<<tuoi<<endl
+				<<"Ngay thue: "<<ngay_thue<<endl
+				<<"Ngay tra: "<<ngay_tra<<endl;
+				
+		}
+		
+		char* get_tg()
+		{
+			return this->tg;
+		}
+	
+		
+		// true : tre em   \\  false : ng lon 
+		virtual bool kieu_dg()=0;
+		virtual float tt()=0;
+		
+};
+
+class Tre_em : public doc_gia
+{
+	private:
+		char ten_ng_damho[20];
+		float thanh_tien;
+	public:
+		void nhap()
+		{
+			doc_gia::nhap();
+			cout<<"nhap ten ng dam ho: ";
+			fflush(stdin);
+			cin.getline(ten_ng_damho,20);
+			
+		}
+		void xuat()
+		{
+			doc_gia::xuat();
+			cout<<"Ten ng dam ho: "<<ten_ng_damho<<endl
+				<<"Thanh tien: "<<this->tt()<<endl;
+		}
+		float tt()
+		{
+			return (ngay_tra - ngay_thue)*2;
+		}
+		bool kieu_dg()
+		{
+			return true;
+		}
+};
+
+class Ng_lon : public doc_gia
+{
+	int cmt;
+	float thanh_tien;	
+	public:
+		void nhap()
+		{
+			doc_gia :: nhap();
+			cout<<"nhap so cmt: ";
+			cin>>cmt;
+		}
+		void xuat()
+		{
+			doc_gia :: xuat();
+			cout<<"So cmt: "<<cmt<<endl
+				<<"Thanh tien: "<<this->tt()<<endl;
+		}
+		float tt()
+		{
+			return (ngay_tra - ngay_thue)*3;
+		}
+		bool kieu_dg()
+		{
+			return false;
+		}
+};
+
+class QL 
+{
+	private:
+		doc_gia *ql[100];
+		int n;
+	public:
+		void nhapDS()
+		{
+			cout<<"Nhap so luong doc gia co trong danh sach: ";
+			cin>>n;
+			cout<<"nhap DS "<<n<<" doc gia\n";
+			for(int i=0;i<n;i++)
+			{
+				cout<<"\t[+] Bang lua chon:\n"
+					<<"\t\t(1). Doc gia tre em\n"
+					<<"\t\t(2). Doc gia nguoi lon\n"
+					<<"\t\t  >> Nhap lua chon cua ban: ";
+				int lc;
+				cin>>lc;
+				while(lc<1 || lc>2)
+				{
+					cout<<"\t\t\t > Lua chon nay k ton tai, hay chon lai: ";
+					cin>>lc; 
+				}
+				if(lc==1)
+				{
+					ql[i] = new Tre_em();
+				}
+
+				else
+				{
+					ql[i] = new Ng_lon();
+				}
+				ql[i]->nhap();
+			}	
+		}
+		
+		void xuatDS()
+		{
+			cout<<"xuat DS "<<n<<" ho so"<<endl;
+			for(int i=0;i<n;i++)
+			{
+				cout<<"\t[+]Xuat thong tin cua doc gia "
+					<<(ql[i]->kieu_dg() ? "tre em" : "ng lon")
+					<<" thu "<<i+1<<endl;
+			ql[i]->xuat();
+			}
+		}
+		
+		
+		
+//		long tong_tt()
+//		{
+//			int s=0;
+//			for(int i=0;i<n;i++)
+//			{
+//				s = (ngay_tra - ngay_thue)*2 + (ngay_tra - ngay_thue)*3;
+//				
+//			}
+//			cout<<"\nTong thanh tien: "<<s<<endl;
+//			
+//		}
+		void Sapxep()
+		{
+			cout<<"\t > Sap xep tang dan theo ten tac gia: "<<endl;
+			for(int i=0;i<n;i++)
+			{
+				for(int j=i+1;j<n;j++)
+				{
+					if(strcmp(ql[i]->get_tg(),ql[j]->get_tg()) == 1 )
+						swap(ql[i],ql[j]);
+				}
+				ql[i]->xuat();
+			} 
+			
+		}
+		
+		
+};
+
+int main()
+{
+	QL *ql = new QL();
+
+	ql->nhapDS();
+	ql->xuatDS();
+//	ql->tong_tt();
+	ql->Sapxep();
+	return 0;
+}

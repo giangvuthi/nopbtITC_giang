@@ -5,7 +5,7 @@ using namespace std;
 
 class doc_gia
 {
-	protected:
+	public:
 		char ma[10];
 		char ten_sach[20], tg[20], ten_nt[20];
 		int tuoi,ngay_thue,ngay_tra;
@@ -58,14 +58,13 @@ class doc_gia
 		// true : tre em   \\  false : ng lon 
 		virtual bool kieu_dg()=0;
 		virtual float tt()=0;
-		
+		virtual char* get_TT_rieng()=0;
 };
 
 class Tre_em : public doc_gia
 {
 	private:
 		char ten_ng_damho[20];
-		float thanh_tien;
 	public:
 		void nhap()
 		{
@@ -89,18 +88,21 @@ class Tre_em : public doc_gia
 		{
 			return true;
 		}
+		char* get_TT_rieng()
+		{
+			return this->ten_ng_damho;
+		}
 };
 
 class Ng_lon : public doc_gia
 {
-	int cmt;
-	float thanh_tien;	
+	char cmt[10];	
 	public:
 		void nhap()
 		{
 			doc_gia :: nhap();
 			cout<<"nhap so cmt: ";
-			cin>>cmt;
+			cin.getline(cmt,10);
 		}
 		void xuat()
 		{
@@ -115,6 +117,10 @@ class Ng_lon : public doc_gia
 		bool kieu_dg()
 		{
 			return false;
+		}
+		char* get_TT_rieng()
+		{
+			return this->cmt;
 		}
 };
 
@@ -167,19 +173,26 @@ class QL
 			}
 		}
 		
-		
-		
-//		long tong_tt()
-//		{
-//			int s=0;
-//			for(int i=0;i<n;i++)
-//			{
-//				s = (ngay_tra - ngay_thue)*2 + (ngay_tra - ngay_thue)*3;
-//				
-//			}
-//			cout<<"\nTong thanh tien: "<<s<<endl;
-//			
-//		}
+		void tong_tt()
+		{
+			int s_te=0,s_nl=0;
+			for(int i=0;i<n;i++)
+			{
+				if(ql[i]->kieu_dg())
+         			{
+					s_te += ql[i]->tt();
+				}
+				else
+				{
+					s_nl += ql[i]->tt();
+				}
+				
+			}
+			cout<<"\nXuattong thanh tien cho 2 doc gia: "<<endl
+				<<"\t - Tre em: "<<s_te<<endl
+				<<"\t - Nguoi lon: "<<s_nl<<endl;
+			
+		}
 		void Sapxep()
 		{
 			cout<<"\t > Sap xep tang dan theo ten tac gia: "<<endl;
@@ -194,7 +207,24 @@ class QL
 			} 
 			
 		}
-		
+		void ghi_file()
+		{
+			fstream f;
+			f.open("C:\\Users\\PC\\Desktop\\doc_ghi file c++\\file ghi doc gia.txt",ios::out);// tu lay dia chi mk muon
+			
+			for(int i=0;i<n;i++)
+			{
+					f<<ql[i]->ma<<endl
+					<<ql[i]->ten_sach<<endl
+					<<ql[i]->tg<<endl
+					<<ql[i]->ten_nt<<endl
+					<<ql[i]->tuoi<<endl
+					<<ql[i]->ngay_thue<<endl
+					<<ql[i]->ngay_tra<<endl
+					<<ql[i]->get_TT_rieng()<<endl;
+			}
+			f.close();
+		}
 		
 };
 
@@ -204,7 +234,8 @@ int main()
 
 	ql->nhapDS();
 	ql->xuatDS();
-//	ql->tong_tt();
+	ql->tong_tt();
 	ql->Sapxep();
+	ql->ghi_file();
 	return 0;
 }

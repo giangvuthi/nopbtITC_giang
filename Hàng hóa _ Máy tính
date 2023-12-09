@@ -1,0 +1,164 @@
+#include <iostream>
+#include <string.h>
+#include <iomanip>
+using namespace std;
+
+class HH
+{
+	private:
+		string maH, tenH;
+		int dg;
+	public:
+		HH(string maH = "", string tenH = "", int dg = 0)
+		{
+			this->maH = maH;
+			this->tenH = tenH;
+			this->dg = dg;
+		}
+		string get_maH()
+		{
+			return maH;
+		}
+		string get_tenH()
+		{
+			return tenH;
+		}
+		int get_dg()
+		{
+			return dg;
+		}
+		
+		friend istream& operator >> (istream& in,HH &h)
+		{
+			cout<<"nhap ma hang: ";
+			in>>h.maH;
+			cout<<"nhap ten hang sx: ";
+			in>>h.tenH;
+			cout<<"nhap don gia: ";
+			in>>h.dg;
+			
+			return in;
+		}
+		
+		friend ostream& operator << (ostream& out,HH h)
+		{
+			out<<setw(15)<<h.maH
+				<<setw(15)<<h.tenH
+				<<setw(15)<<h.dg;
+				
+			return out;
+		}
+		
+};
+
+class MT : public HH
+{
+	private:
+		int dl_RAM, trl;
+	public:
+		MT(string maH = "", string tenH = "", int dg = 0, int dl_RAM = 0, int trl = 0) : HH(maH,tenH,dg)
+		{
+			this->dl_RAM = dl_RAM;
+			this->trl = trl;
+		}
+		
+		friend istream& operator >> (istream& in,MT &t)
+		{
+			in>>(HH&)t;
+			cout<<"nhap dl RAM: ";
+			in>>t.dl_RAM;
+			cout<<"nhap trong lg: ";
+			in>>t.trl;
+			
+			return in;
+		}
+		
+		friend ostream& operator << (ostream& out,MT t)
+		{
+			out<<(HH&)t;
+			out<<setw(15)<<t.dl_RAM
+				<<setw(15)<<t.trl;
+				
+			return out;
+		}
+		
+		int Tinh_vc()
+		{
+			if(trl > 2)
+				return 100000;
+			else if(trl > 1)
+				return 50000;
+			else
+				return 30000;
+		}
+		
+		bool operator == (MT &t)
+		{
+			return dl_RAM = t.dl_RAM;
+		}
+		
+		int get_dlRAM()
+		{
+			return dl_RAM;
+		}
+		
+		int Tinh_tien()
+		{
+			return get_dg() + Tinh_vc();
+		}
+		
+};
+
+int main()
+{
+	int m,n;
+	cout<<"nhap slg HH: ";
+	cin>>m;
+	HH h[m];
+	
+	for(int i=0;i<m;i++)
+	{
+		cout<<"nhap HH thu "<<i+1<<endl;
+		cin>>h[i];
+	}
+	cout<<"\n\t -- HANG HOA -- \n"
+		<<setw(5)<<"STT"
+		<<setw(15)<<"ma H"
+		<<setw(15)<<"ten H"
+		<<setw(15)<<"don gia"
+		<<endl;
+	for(int i=0;i<m;i++)
+	{
+		cout<<setw(5)<<i+1<<h[i]<<endl;
+	}
+	
+	cout<<"nhap slg MT: ";
+	cin>>n;
+	MT t[n];
+	
+	for(int i=0;i<n;i++)
+	{
+		cout<<"\nnhap MT thu "<<i+1<<endl;
+		cin>>t[i];
+	}
+	cout<<"\n\t -- MAY TINH -- \n"
+		<<setw(5)<<"STT"
+		<<setw(15)<<"ma H"
+		<<setw(15)<<"ten H"
+		<<setw(15)<<"don gia"
+		<<setw(15)<<"dl RAM"
+		<<setw(15)<<"trong lg"
+		<<setw(15)<<"tien vc"
+		<<setw(15)<<"tinh tien"
+		<<endl;
+	for(int i=0;i<n;i++)
+	{
+		if(t[i].get_dlRAM() == 16)
+		cout<<setw(5)<<i+1<<t[i]
+			<<setw(15)<<t[i].Tinh_vc()
+			<<setw(15)<<t[i].Tinh_tien()
+			<<endl;
+	}
+	
+	return 0;
+}
